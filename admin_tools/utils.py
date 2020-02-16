@@ -30,7 +30,7 @@ def uniquify(value, seen_values):
 
 
 def get_admin_site(context=None, request=None):
-    autodiscover(admin_site)
+    #autodiscover(admin_site)
     return admin_site
 
 

@@ -29,8 +29,7 @@ def uniquify(value, seen_values):
 
 
 def get_admin_site(context=None, request=None):
-    from esp.admin import admin_site, autodiscover
-    #autodiscover(admin_site)
+    from esp.admin import admin_site
     return admin_site
 
 

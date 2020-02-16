@@ -5,7 +5,6 @@ from fnmatch import fnmatch
 
 from django.conf import settings
 from django.contrib import admin
-from esp.admin import admin_site, autodiscover
 try:
     from django.urls import reverse
 except ImportError:
@@ -30,6 +29,7 @@ def uniquify(value, seen_values):
 
 
 def get_admin_site(context=None, request=None):
+    from esp.admin import admin_site, autodiscover
     #autodiscover(admin_site)
     return admin_site
 

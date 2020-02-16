@@ -5,6 +5,7 @@ from fnmatch import fnmatch
 
 from django.conf import settings
 from django.contrib import admin
+from esp.admin import admin_site, autodiscover
 try:
     from django.urls import reverse
 except ImportError:
@@ -29,26 +30,8 @@ def uniquify(value, seen_values):
 
 
 def get_admin_site(context=None, request=None):
-    dashboard_cls = getattr(
-        settings,
-        'ADMIN_TOOLS_INDEX_DASHBOARD',
-        'admin_tools.dashboard.dashboards.DefaultIndexDashboard'
-    )
-
-    if isinstance(dashboard_cls, dict):
-        if context:
-            request = context.get('request')
-        curr_url = request.path
-        for key in dashboard_cls:
-            mod, inst = key.rsplit('.', 1)
-            mod = import_module(mod)
-            admin_site = getattr(mod, inst)
-            admin_url = reverse('%s:index' % admin_site.name)
-            if curr_url.startswith(admin_url):
-                return admin_site
-    else:
-        return admin.site
-    raise ValueError('Admin site matching "%s" not found' % dashboard_cls)
+    autodiscover(admin_site)
+    return admin_site
 
 
 def get_admin_site_name(context):

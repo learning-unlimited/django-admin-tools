@@ -41,9 +41,9 @@ def get_admin_site_name(context):
 def get_avail_models(request):
     """ Returns (model, perm,) for all models user can possibly see """
     items = []
-    admin_site = get_admin_site(request=request)
+    adminsite = get_admin_site(request=request)
 
-    for model, model_admin in admin_site._registry.items():
+    for model, model_admin in adminsite._registry.items():
         perms = model_admin.get_model_perms(request)
         if True not in perms.values():
             continue

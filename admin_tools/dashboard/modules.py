@@ -558,7 +558,7 @@ class ModelList(DashboardModule, AppListElementMixin):
                 model_dict['change_url'] = extra_url['change_url']
                 model_dict['add_url'] = extra_url.get('add_url', None)
                 self.children.append(model_dict)
-        self.children.sort(key=lambda x: x['title'])
+        self.children = sorted(self.children, key=lambda x: x['title'])
 
         self._initialized = True
 

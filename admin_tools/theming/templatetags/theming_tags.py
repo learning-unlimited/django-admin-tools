@@ -18,9 +18,8 @@ def render_theming_css():
     """
     css = getattr(settings, 'ADMIN_TOOLS_THEMING_CSS', False)
     if not css:
-        css = '/'.join(['admin_tools', 'css', 'theming.css'])
+        css = staticfiles_storage.url('/'.join(['admin_tools', 'css', 'theming.css']))
     return mark_safe(
-        '<link rel="stylesheet" type="text/css" media="screen" href="%s" />' %
-        staticfiles_storage.url(css)
+        '<link rel="stylesheet" type="text/css" media="screen" href="%s" />' % css
     )
 register.simple_tag(render_theming_css)

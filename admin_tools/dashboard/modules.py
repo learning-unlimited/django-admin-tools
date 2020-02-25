@@ -543,6 +543,7 @@ class ModelList(DashboardModule, AppListElementMixin):
         for model, perms in items:
             model_dict = {}
             model_dict['title'] = model._meta.verbose_name_plural
+            model_dict['verbose_name'] = model._meta.verbose_name
             if perms['change']:
                 model_dict['change_url'] = self._get_admin_change_url(
                     model,
@@ -559,7 +560,7 @@ class ModelList(DashboardModule, AppListElementMixin):
                 model_dict['change_url'] = extra_url['change_url']
                 model_dict['add_url'] = extra_url.get('add_url', None)
                 self.children.append(model_dict)
-        self.children = sorted(self.children, key=lambda x: x['title'])
+        self.children = sorted(self.children, key=lambda x: x['verbose_name'].lower())
 
         self._initialized = True
 

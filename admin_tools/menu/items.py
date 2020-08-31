@@ -1,10 +1,13 @@
 from django.apps import apps as django_apps
 try:
+    # we use django.urls import as version detection as it will fail on django 1.11 and thus we are safe to use
+    # gettext_lazy instead of ugettext_lazy instead
     from django.urls import reverse
+    from django.utils.translation import gettext_lazy as _
 except ImportError:
     from django.core.urlresolvers import reverse
+    from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
 from admin_tools.utils import AppListElementMixin
 
 
@@ -189,7 +192,7 @@ class AppList(MenuItem, AppListElementMixin):
         items = self._visible_models(context['request'])
         apps = {}
         for model, perms in items:
-            if not perms['change']:
+            if not (perms['change'] or perms.get('view', False)):
                 continue
             app_label = model._meta.app_label
             if app_label not in apps:
@@ -288,7 +291,7 @@ class ModelList(MenuItem, AppListElementMixin):
         """
         items = self._visible_models(context['request'])
         for model, perms in items:
-            if not perms['change']:
+            if not (perms['change'] or perms.get('view', False)):
                 continue
             title = model._meta.verbose_name_plural
             url = self._get_admin_change_url(model, context)

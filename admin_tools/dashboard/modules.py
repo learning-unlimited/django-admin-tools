@@ -4,14 +4,16 @@ Module where admin tools dashboard modules classes are defined.
 
 from django.apps import apps as django_apps
 try:
+    # we use django.urls import as version detection as it will fail on django 1.11 and thus we are safe to use
+    # gettext_lazy instead of ugettext_lazy instead
     from django.urls import reverse
+    from django.utils.translation import gettext_lazy as _
 except ImportError:
     from django.core.urlresolvers import reverse
+    from django.utils.translation import ugettext_lazy as _
 from django.forms.utils import flatatt
-
 from django.utils.itercompat import is_iterable
 from django.utils.text import capfirst
-from django.utils.translation import ugettext_lazy as _
 
 from admin_tools.utils import AppListElementMixin, uniquify
 
@@ -457,7 +459,7 @@ class AppList(DashboardModule, AppListElementMixin):
             model_dict = {}
             model_dict['title'] = model._meta.verbose_name_plural
             model_dict['verbose_name'] = model._meta.verbose_name
-            if perms['change']:
+            if perms['change'] or perms.get('view', False):
                 model_dict['change_url'] = self._get_admin_change_url(
                     model,
                     context
@@ -544,7 +546,7 @@ class ModelList(DashboardModule, AppListElementMixin):
             model_dict = {}
             model_dict['title'] = model._meta.verbose_name_plural
             model_dict['verbose_name'] = model._meta.verbose_name
-            if perms['change']:
+            if perms['change'] or perms.get('view', False):
                 model_dict['change_url'] = self._get_admin_change_url(
                     model,
                     context

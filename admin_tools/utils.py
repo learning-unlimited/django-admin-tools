@@ -3,6 +3,7 @@ Admin ui common utilities.
 """
 from fnmatch import fnmatch
 
+import django
 from django.conf import settings
 from django.contrib import admin
 try:
@@ -15,6 +16,12 @@ except ImportError:
     # Django < 1.9 and Python < 2.7
     from django.utils.importlib import import_module
 import warnings
+
+
+def is_xhr(request):
+    if django.VERSION < (2, 2):
+        return request.is_ajax()
+    return request.headers.get("x-requested-with") == "XMLHttpRequest"
 
 
 def uniquify(value, seen_values):
@@ -79,9 +86,9 @@ def filter_models(request, models, exclude):
     def full_name(model):
         return '%s.%s' % (model.__module__, model.__name__)
 
-    # I beleive that that implemented
+    # I believe that that implemented
     # O(len(patterns)*len(matched_patterns)*len(all_models))
-    # algorythm is fine for model lists because they are small and admin
+    # algorithm is fine for model lists because they are small and admin
     # performance is not a bottleneck. If it is not the case then the code
     # should be optimized.
 

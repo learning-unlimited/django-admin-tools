@@ -1,6 +1,15 @@
 django-admin-tools changelog
 ============================
 
+Unreleased:
+-----------
+
+* Drop Python 2 / old Django compatibility shims and remove ``default_app_config``
+* Replace ``imp`` usage in dashboard autodiscovery with ``importlib.util.find_spec`` for Python 3.12 compatibility
+* Remove obsolete South migration directories and legacy Travis CI config
+* Add GitHub Actions test workflow and expand Django/Python matrix for Django 4.0-4.2 support
+
+
 Version 0.9.3, 10 August 2023:
 ------------------------------
 

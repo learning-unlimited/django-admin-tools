@@ -1,12 +1,6 @@
 from django.apps import apps as django_apps
-try:
-    # we use django.urls import as version detection as it will fail on django 1.11 and thus we are safe to use
-    # gettext_lazy instead of ugettext_lazy instead
-    from django.urls import reverse
-    from django.utils.translation import gettext_lazy as _
-except ImportError:
-    from django.core.urlresolvers import reverse
-    from django.utils.translation import ugettext_lazy as _
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from django.utils.safestring import mark_safe
 from admin_tools.utils import AppListElementMixin
 

@@ -1,8 +1,4 @@
-try:
-    from urllib.parse import unquote
-except ImportError:
-    # Python 2 compatibility
-    from urllib import unquote
+from urllib.parse import unquote
 
 from django import forms
 

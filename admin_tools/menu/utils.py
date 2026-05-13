@@ -3,15 +3,8 @@ Menu utilities.
 """
 
 from django.conf import settings
-try:
-    from importlib import import_module
-except ImportError:
-    # Django < 1.9 and Python < 2.7
-    from django.utils.importlib import import_module
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
+from importlib import import_module
+from django.urls import reverse
 
 
 def _get_menu_cls(menu_cls, context):

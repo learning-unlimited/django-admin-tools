@@ -8,10 +8,3 @@ administration interface, it includes:
 """
 
 VERSION = '0.9.3'
-
-try:
-    import django
-    if django.VERSION < (3, 2):
-        default_app_config = 'admin_tools.apps.AdminToolsConfig'
-except ImportError:
-    pass

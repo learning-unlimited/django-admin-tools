@@ -1,12 +1,8 @@
-import sys
 import json
 
 from django.test import TestCase
 from django.contrib.auth.models import User
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from admin_tools.dashboard.models import DashboardPreferences
 from admin_tools.menu.models import Bookmark
@@ -17,11 +13,8 @@ class AdminBasicTest(TestCase):
     fixtures = ['users.json']
 
     def _login(self, username, password):
-        try:
-            user = User.objects.get(username=username)
-            self.client.force_login(user)
-        except AttributeError:  # in Django<1.9
-            self.client.login(username=username, password=password)
+        user = User.objects.get(username=username)
+        self.client.force_login(user)
 
     def test_admin_loads(self):
         for (username, password) in (('superuser', '123'), ('staff', '123')):
@@ -88,13 +81,8 @@ class AdminBasicTest(TestCase):
         self.assertEqual(json.loads(pref.data), pref_data)
 
     def test_edit_dashboard_preferences(self):
-        try:
-            user = User.objects.get(username='superuser')
-            self.client.force_login(user)
-        except AttributeError:  # in Django<1.9
-            self.client.login(username='superuser', password='123')
-        self._login('superuser', '123')
         user = User.objects.get(username='superuser')
+        self.client.force_login(user)
         pref = DashboardPreferences.objects.create(
             user=user,
             dashboard_id='test-dashboard',
@@ -148,4 +136,3 @@ class AdminBasicTest(TestCase):
         self.assertContains(res, 'Deleted')
         with self.assertRaises(Bookmark.DoesNotExist):
             Bookmark.objects.get(pk=bm.pk)
-

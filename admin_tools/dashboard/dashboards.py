@@ -4,16 +4,9 @@ Module where admin tools dashboard classes are defined.
 
 from django.template.defaultfilters import slugify
 from importlib import import_module
-try:
-    # we use django.urls import as version detection as it will fail on django 1.11 and thus we are safe to use
-    # gettext_lazy instead of ugettext_lazy instead
-    from django.urls import reverse
-    from django.utils.translation import gettext_lazy as _
-    from django.utils.encoding import force_str
-except ImportError:
-    from django.core.urlresolvers import reverse
-    from django.utils.translation import ugettext_lazy as _
-    from django.utils.encoding import force_text as force_str
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+from django.utils.encoding import force_str
 
 from admin_tools.dashboard import modules
 from admin_tools.utils import get_admin_site_name, uniquify
@@ -53,8 +46,8 @@ class Dashboard(object):
 
     Here's an example of a custom dashboard::
 
-        from django.core.urlresolvers import reverse
-        from django.utils.translation import ugettext_lazy as _
+        from django.urls import reverse
+        from django.utils.translation import gettext_lazy as _
         from admin_tools.dashboard import modules, Dashboard
 
         class MyDashboard(Dashboard):

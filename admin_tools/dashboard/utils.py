@@ -2,16 +2,9 @@
 Dashboard utilities.
 """
 from django.conf import settings
-try:
-    from importlib import import_module
-except ImportError:
-    # Django < 1.9 and Python < 2.7
-    from django.utils.importlib import import_module
+from importlib import import_module
 from django.utils.text import capfirst
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from admin_tools.dashboard.registry import Registry
 from admin_tools.utils import get_admin_site

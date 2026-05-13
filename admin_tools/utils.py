@@ -3,24 +3,13 @@ Admin ui common utilities.
 """
 from fnmatch import fnmatch
 
-import django
 from django.conf import settings
-from django.contrib import admin
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
-try:
-    from importlib import import_module
-except ImportError:
-    # Django < 1.9 and Python < 2.7
-    from django.utils.importlib import import_module
+from django.urls import reverse
+from importlib import import_module
 import warnings
 
 
 def is_xhr(request):
-    if django.VERSION < (2, 2):
-        return request.is_ajax()
     return request.headers.get("x-requested-with") == "XMLHttpRequest"
 
 
@@ -36,22 +25,8 @@ def uniquify(value, seen_values):
 
 
 def get_admin_site(context=None, request=None):
-    try:
-        from esp.admin import admin_site
-        return admin_site
-    except ImportError:
-        pass
-
-    if request is None and context is not None:
-        request = context.get('request')
-
-    current_app = getattr(request, 'current_app', None) if request else None
-    if current_app:
-        for admin_site in getattr(admin.sites, 'all_sites', ()):
-            if admin_site.name == current_app:
-                return admin_site
-
-    return admin.site
+    from esp.admin import admin_site
+    return admin_site
 
 
 def get_admin_site_name(context):

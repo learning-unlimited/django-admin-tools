@@ -1,11 +1,7 @@
 from tempfile import mktemp
 from django.test import TestCase
 from django.core import management
-
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 from admin_tools.menu.items import AppList
@@ -40,14 +36,8 @@ class DeleteBookMarkTest(TestCase):
         )
 
     def _login_user(self, username, password):
-        try:
-            user = User.objects.get(username=username)
-            self.client.force_login(user)
-        except AttributeError:  # in Django<1.9
-            logged_in = self.client.login(
-                username=user.username, password=password
-            )
-            self.assertTrue(logged_in)
+        user = User.objects.get(username=username)
+        self.client.force_login(user)
 
     def test_removing_of_own_bookmark(self):
         self.assertEqual(Bookmark.objects.count(), 1)

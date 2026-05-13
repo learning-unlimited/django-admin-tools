@@ -9,10 +9,7 @@ To load the menu tags in your templates: ``{% load admin_tools_menu_tags %}``.
 """
 
 from django import template
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from admin_tools.utils import get_admin_site_name
 from admin_tools.menu import items

@@ -1,7 +1,6 @@
 """
 This module contains the base classes for menu and menu items.
 """
-import sys
 
 from django.conf import settings
 from django.db import models
@@ -24,10 +23,6 @@ class Bookmark(models.Model):
 
     def __str__(self):
         return "%s - %s" % (self.title, self.url)
-
-    if sys.version_info[0] == 2:
-        __unicode__ = __str__
-        del __str__
 
     class Meta:
         db_table = 'admin_tools_menu_bookmark'

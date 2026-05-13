@@ -83,8 +83,6 @@ class AdminBasicTest(TestCase):
     def test_edit_dashboard_preferences(self):
         user = User.objects.get(username='superuser')
         self.client.force_login(user)
-        self._login('superuser', '123')
-        user = User.objects.get(username='superuser')
         pref = DashboardPreferences.objects.create(
             user=user,
             dashboard_id='test-dashboard',

@@ -47,13 +47,12 @@ def autodiscover(blacklist=[]):
         if app in blacklist:
             continue
 
-        # try to import the app
         try:
-            import_module(app).__path__
-        except AttributeError:
+            dashboard_spec = util.find_spec('%s.dashboard' % app)
+        except (AttributeError, ImportError, ValueError):
             continue
 
-        if util.find_spec('%s.dashboard' % app) is None:
+        if dashboard_spec is None:
             continue
 
         # looks like we found it so import it !

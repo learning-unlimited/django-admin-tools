@@ -10,6 +10,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -35,4 +37,4 @@ jobs:
           python -m pip install -e . "Django${{ matrix.django-version }}"
 
       - name: Run tests
-        run: python -Wall test_proj/manage.py test
+        run: python -W all test_proj/manage.py test

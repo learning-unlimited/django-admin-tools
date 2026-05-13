@@ -36,8 +36,22 @@ def uniquify(value, seen_values):
 
 
 def get_admin_site(context=None, request=None):
-    from esp.admin import admin_site
-    return admin_site
+    try:
+        from esp.admin import admin_site
+        return admin_site
+    except ImportError:
+        pass
+
+    if request is None and context is not None:
+        request = context.get('request')
+
+    current_app = getattr(request, 'current_app', None) if request else None
+    if current_app:
+        for admin_site in getattr(admin.sites, 'all_sites', ()):
+            if admin_site.name == current_app:
+                return admin_site
+
+    return admin.site
 
 
 def get_admin_site_name(context):

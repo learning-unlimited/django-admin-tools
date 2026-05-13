@@ -1,6 +1,7 @@
 import sys
 import json
 
+from django.contrib import admin
 from django.test import TestCase
 from django.contrib.auth.models import User
 try:
@@ -10,11 +11,15 @@ except ImportError:
 
 from admin_tools.dashboard.models import DashboardPreferences
 from admin_tools.menu.models import Bookmark
+from admin_tools.utils import get_admin_site
 
 
 class AdminBasicTest(TestCase):
 
     fixtures = ['users.json']
+
+    def test_get_admin_site_defaults_to_django_admin(self):
+        self.assertIs(get_admin_site(), admin.site)
 
     def _login(self, username, password):
         try:
@@ -148,4 +153,3 @@ class AdminBasicTest(TestCase):
         self.assertContains(res, 'Deleted')
         with self.assertRaises(Bookmark.DoesNotExist):
             Bookmark.objects.get(pk=bm.pk)
-

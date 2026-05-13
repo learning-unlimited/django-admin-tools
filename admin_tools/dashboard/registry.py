@@ -49,7 +49,7 @@ def autodiscover(blacklist=[]):
 
         try:
             dashboard_spec = util.find_spec('%s.dashboard' % app)
-        except (AttributeError, ImportError, ValueError):
+        except (ImportError, ValueError):
             continue
 
         if dashboard_spec is None:
